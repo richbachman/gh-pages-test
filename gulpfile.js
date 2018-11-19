@@ -27,7 +27,4 @@ gulp.task('clean:dist', function(done) {
 
 gulp.task('build', gulp.series('clean:dist', gulp.parallel('useref')));
 
-gulp.task('deploy', function () {
-  return gulp.src('dist/**/*')
-  .pipe(ghPages())
-});
+task('deploy', () => src('./dist/**/*').pipe(ghPages()));
