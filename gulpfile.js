@@ -12,18 +12,22 @@ gulp.task('useref', function() {
   .pipe(gulp.dest('dist'));
 });
 
-gulp.task('clean:dist', function() {
-  return del.sync(['dist'])
+gulp.task('clean:dist', function(done) {
+  //return del.sync(['dist'])
+  del(['./dist']);
+  done();
 });
 
-gulp.task('build', function(callback) {
-  runSequence(
-    ['clean:dist'], ['useref'],
-    callback
-  )
-});
+// gulp.task('build', function(done) {
+//   runSequence(
+//     ['clean:dist'], ['useref']
+//   );
+//   done();
+// });
+
+gulp.task('build', gulp.series('clean:dist', gulp.parallel('useref')));
 
 gulp.task('deploy', function () {
-  return gulp.src("dist/**/*")
+  return gulp.src('dist/**/*')
   .pipe(ghPages())
 });
